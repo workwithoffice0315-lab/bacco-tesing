@@ -1,0 +1,6 @@
+{
+  "name": "Basco Group",
+  "description": "Basco Group provides professional BPO, call center, customer support, contact center and business outsourcing solutions for businesses in India and global markets.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
