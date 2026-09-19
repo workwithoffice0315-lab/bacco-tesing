@@ -13,9 +13,13 @@ export const COMPANY_DETAILS = {
   tagline: 'Smart Outsourcing. Better Customer Experiences. Stronger Business Growth.',
   domain: 'www.bascogroup.co.in',
   websiteUrl: 'https://www.bascogroup.co.in',
-  // Clearly marked editable placeholders as specified in prompt
+  // Contact details
   addressPlaceholder: '[Office Address: Registered Corporate Center / Operations Facility, To be provided by Basco Group administration, India]',
-  phonePlaceholder: '[Phone: Contact telephone number to be provided by Basco Group administration]',
+  phone: '+91 8368481506',
+  phoneRaw: '8368481506',
+  phonePlaceholder: '+91 8368481506',
+  whatsappNumber: '918368481506',
+  whatsappFormatted: '+91 8368481506',
   emailPlaceholder: 'contact@bascogroup.co.in',
   careersEmailPlaceholder: 'careers@bascogroup.co.in',
   businessHoursPlaceholder: 'Monday to Saturday: 9:00 AM – 7:00 PM IST | 24/7 Shift Operations available for dedicated accounts',

@@ -48,19 +48,20 @@ export const ConsultationModal: React.FC<ConsultationModalProps> = ({
 
   const validateConsultation = (): boolean => {
     const newErrors: Record<string, string> = {};
-    if (!consultForm.fullName.trim()) newErrors.fullName = 'Full Name is required';
-    if (!consultForm.companyName.trim()) newErrors.companyName = 'Company Name is required';
-    if (!consultForm.workEmail.trim()) {
-      newErrors.workEmail = 'Work Email is required';
-    } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(consultForm.workEmail)) {
-      newErrors.workEmail = 'Please provide a valid email address';
+    if (!consultForm.fullName.trim()) {
+      newErrors.fullName = 'Full Name is required';
     }
     if (!consultForm.phoneNumber.trim()) {
       newErrors.phoneNumber = 'Phone Number is required';
     } else if (consultForm.phoneNumber.replace(/[^0-9]/g, '').length < 8) {
       newErrors.phoneNumber = 'Please enter a valid phone number with area/country code';
     }
-    if (!consultForm.message.trim()) newErrors.message = 'Please provide brief details of your operational requirement';
+    if (
+      consultForm.workEmail.trim() &&
+      !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(consultForm.workEmail.trim())
+    ) {
+      newErrors.workEmail = 'Please provide a valid email address';
+    }
 
     setErrors(newErrors);
     return Object.keys(newErrors).length === 0;
@@ -86,12 +87,14 @@ export const ConsultationModal: React.FC<ConsultationModalProps> = ({
     try {
       const res = await submitLead({
         type: 'consultation',
-        fullName: consultForm.fullName,
-        email: consultForm.workEmail,
-        phone: consultForm.phoneNumber,
-        companyName: consultForm.companyName,
-        serviceOrRole: consultForm.serviceRequired,
-        message: consultForm.message,
+        fullName: consultForm.fullName.trim(),
+        email: consultForm.workEmail.trim(),
+        phone: consultForm.phoneNumber.trim(),
+        companyName: consultForm.companyName.trim() || 'Independent Client',
+        serviceOrRole: consultForm.serviceRequired || 'Customer Support',
+        message:
+          consultForm.message.trim() ||
+          `Phone Consultation Request from ${consultForm.fullName.trim()} (${consultForm.phoneNumber.trim()})`,
         additionalData: {
           country: consultForm.country,
           estimatedTeamSize: consultForm.estimatedTeamSize,
@@ -243,18 +246,26 @@ export const ConsultationModal: React.FC<ConsultationModalProps> = ({
                   </span>
                 </div>
                 <div className="flex justify-between text-slate-600">
-                  <span className="text-slate-400">Contact:</span>
+                  <span className="text-slate-400">Phone:</span>
                   <span className="font-semibold text-slate-800">
                     {activeTab === 'consultation'
-                      ? consultForm.workEmail
+                      ? consultForm.phoneNumber
                       : callbackForm.phoneNumber}
                   </span>
                 </div>
+                {activeTab === 'consultation' && consultForm.workEmail && (
+                  <div className="flex justify-between text-slate-600">
+                    <span className="text-slate-400">Email:</span>
+                    <span className="font-semibold text-slate-800">
+                      {consultForm.workEmail}
+                    </span>
+                  </div>
+                )}
               </div>
 
-              {/* Direct WhatsApp Action */}
-              {generatedWhatsAppUrl && (
-                <div className="pt-2 max-w-md mx-auto">
+              {/* Direct WhatsApp & Email Actions */}
+              <div className="pt-2 max-w-md mx-auto space-y-2">
+                {generatedWhatsAppUrl && (
                   <a
                     href={generatedWhatsAppUrl}
                     target="_blank"
@@ -262,14 +273,30 @@ export const ConsultationModal: React.FC<ConsultationModalProps> = ({
                     className="w-full flex items-center justify-center gap-2 bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-sm py-3 px-6 rounded-xl shadow-lg shadow-emerald-600/20 transition-all hover:scale-[1.01]"
                   >
                     <MessageCircle className="w-5 h-5 fill-current" />
-                    <span>Send Inquiry to WhatsApp Directly</span>
+                    <span>Send Inquiry to WhatsApp (+91 8368481506)</span>
                     <ExternalLink className="w-4 h-4 opacity-75" />
                   </a>
-                  <p className="text-[11px] text-slate-500 mt-1">
-                    Connect instantly with our lead manager on WhatsApp.
-                  </p>
-                </div>
-              )}
+                )}
+                <a
+                  href={`mailto:workwithoffice0315@gmail.com?subject=Basco%20Group%20Consultation%20Request%20-%20${encodeURIComponent(
+                    activeTab === 'consultation'
+                      ? consultForm.fullName + ' (' + consultForm.phoneNumber + ')'
+                      : callbackForm.fullName + ' (' + callbackForm.phoneNumber + ')'
+                  )}&body=Full%20Name:%20${encodeURIComponent(
+                    activeTab === 'consultation' ? consultForm.fullName : callbackForm.fullName
+                  )}%0APhone:%20${encodeURIComponent(
+                    activeTab === 'consultation' ? consultForm.phoneNumber : callbackForm.phoneNumber
+                  )}%0ACompany:%20${encodeURIComponent(
+                    activeTab === 'consultation' ? consultForm.companyName || 'N/A' : callbackForm.companyName || 'N/A'
+                  )}%0ARequirement:%20${encodeURIComponent(
+                    activeTab === 'consultation' ? consultForm.message || 'Consultation' : callbackForm.topic
+                  )}`}
+                  className="w-full flex items-center justify-center gap-2 bg-blue-50 hover:bg-blue-100 text-blue-700 font-semibold text-xs py-2.5 px-4 rounded-xl border border-blue-200 transition-colors"
+                >
+                  <Mail className="w-4 h-4 text-blue-600" />
+                  <span>Send direct email copy to workwithoffice0315@gmail.com</span>
+                </a>
+              </div>
 
               <div className="pt-2">
                 <button
@@ -311,7 +338,7 @@ export const ConsultationModal: React.FC<ConsultationModalProps> = ({
 
                 <div>
                   <label className="block text-xs font-semibold text-slate-700 mb-1">
-                    Company Name <span className="text-red-500">*</span>
+                    Company Name <span className="text-slate-400 font-normal">(Optional)</span>
                   </label>
                   <div className="relative">
                     <Building2 className="w-4 h-4 text-slate-400 absolute left-3 top-3" />
@@ -322,23 +349,41 @@ export const ConsultationModal: React.FC<ConsultationModalProps> = ({
                         setConsultForm({ ...consultForm, companyName: e.target.value })
                       }
                       placeholder="e.g. Apex Global Logistics"
-                      className={`w-full pl-9 pr-3 py-2 text-sm rounded-lg border focus:ring-2 focus:outline-none ${
-                        errors.companyName
-                          ? 'border-red-400 focus:ring-red-200 bg-red-50/20'
-                          : 'border-slate-300 focus:ring-blue-100 focus:border-blue-600'
-                      }`}
+                      className="w-full pl-9 pr-3 py-2 text-sm rounded-lg border border-slate-300 focus:ring-2 focus:ring-blue-100 focus:border-blue-600 focus:outline-none"
                     />
                   </div>
-                  {errors.companyName && (
-                    <p className="text-[11px] text-red-600 mt-1">{errors.companyName}</p>
-                  )}
                 </div>
               </div>
 
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <div>
                   <label className="block text-xs font-semibold text-slate-700 mb-1">
-                    Work Email <span className="text-red-500">*</span>
+                    Phone Number <span className="text-red-500">*</span>
+                  </label>
+                  <div className="relative">
+                    <Phone className="w-4 h-4 text-slate-400 absolute left-3 top-3" />
+                    <input
+                      type="tel"
+                      value={consultForm.phoneNumber}
+                      onChange={(e) =>
+                        setConsultForm({ ...consultForm, phoneNumber: e.target.value })
+                      }
+                      placeholder="+91 83684 81506"
+                      className={`w-full pl-9 pr-3 py-2 text-sm rounded-lg border focus:ring-2 focus:outline-none ${
+                        errors.phoneNumber
+                          ? 'border-red-400 focus:ring-red-200 bg-red-50/20'
+                          : 'border-slate-300 focus:ring-blue-100 focus:border-blue-600'
+                      }`}
+                    />
+                  </div>
+                  {errors.phoneNumber && (
+                    <p className="text-[11px] text-red-600 mt-1">{errors.phoneNumber}</p>
+                  )}
+                </div>
+
+                <div>
+                  <label className="block text-xs font-semibold text-slate-700 mb-1">
+                    Work Email <span className="text-slate-400 font-normal">(Optional)</span>
                   </label>
                   <div className="relative">
                     <Mail className="w-4 h-4 text-slate-400 absolute left-3 top-3" />
@@ -358,31 +403,6 @@ export const ConsultationModal: React.FC<ConsultationModalProps> = ({
                   </div>
                   {errors.workEmail && (
                     <p className="text-[11px] text-red-600 mt-1">{errors.workEmail}</p>
-                  )}
-                </div>
-
-                <div>
-                  <label className="block text-xs font-semibold text-slate-700 mb-1">
-                    Phone Number <span className="text-red-500">*</span>
-                  </label>
-                  <div className="relative">
-                    <Phone className="w-4 h-4 text-slate-400 absolute left-3 top-3" />
-                    <input
-                      type="tel"
-                      value={consultForm.phoneNumber}
-                      onChange={(e) =>
-                        setConsultForm({ ...consultForm, phoneNumber: e.target.value })
-                      }
-                      placeholder="+91 98765 43210"
-                      className={`w-full pl-9 pr-3 py-2 text-sm rounded-lg border focus:ring-2 focus:outline-none ${
-                        errors.phoneNumber
-                          ? 'border-red-400 focus:ring-red-200 bg-red-50/20'
-                          : 'border-slate-300 focus:ring-blue-100 focus:border-blue-600'
-                      }`}
-                    />
-                  </div>
-                  {errors.phoneNumber && (
-                    <p className="text-[11px] text-red-600 mt-1">{errors.phoneNumber}</p>
                   )}
                 </div>
               </div>
@@ -457,7 +477,7 @@ export const ConsultationModal: React.FC<ConsultationModalProps> = ({
 
               <div>
                 <label className="block text-xs font-semibold text-slate-700 mb-1">
-                  Operational Requirement & Scope <span className="text-red-500">*</span>
+                  Operational Requirement & Scope <span className="text-slate-400 font-normal">(Optional)</span>
                 </label>
                 <textarea
                   rows={3}
@@ -466,15 +486,8 @@ export const ConsultationModal: React.FC<ConsultationModalProps> = ({
                     setConsultForm({ ...consultForm, message: e.target.value })
                   }
                   placeholder="Tell us about your current support volume, operating hours required, systems used, or specific challenges..."
-                  className={`w-full px-3 py-2 text-sm rounded-lg border focus:ring-2 focus:outline-none ${
-                    errors.message
-                      ? 'border-red-400 focus:ring-red-200 bg-red-50/20'
-                      : 'border-slate-300 focus:ring-blue-100 focus:border-blue-600'
-                  }`}
+                  className="w-full px-3 py-2 text-sm rounded-lg border border-slate-300 focus:ring-2 focus:ring-blue-100 focus:border-blue-600 focus:outline-none"
                 />
-                {errors.message && (
-                  <p className="text-[11px] text-red-600 mt-1">{errors.message}</p>
-                )}
               </div>
 
               <div className="pt-2 flex items-center justify-between">

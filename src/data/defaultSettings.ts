@@ -22,7 +22,7 @@ export const DEFAULT_SITE_SETTINGS: SiteSettings = {
   customBodyCode: '',
 
   adminEmail: 'workwithoffice0315@gmail.com',
-  adminWhatsApp: '919876543210',
+  adminWhatsApp: '918368481506',
   enableEmailAlerts: true,
   whatsappFloatingEnabled: true,
   whatsappButtonPosition: 'left', // Left side as requested by user

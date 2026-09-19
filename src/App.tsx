@@ -11,6 +11,7 @@ import { CareersPage } from './components/CareersPage';
 import { ContactUsPage } from './components/ContactUsPage';
 import { ConsultationModal } from './components/ConsultationModal';
 import { LegalModal } from './components/LegalModal';
+import { QuickContactFloating } from './components/QuickContactFloating';
 
 export default function App() {
   const [currentRoute, setCurrentRoute] = useState<PageRoute>('/');
@@ -154,6 +155,9 @@ export default function App() {
         type={legalModalType}
         onClose={() => setLegalModalType(null)}
       />
+
+      {/* Floating Quick Action Contact Buttons (WhatsApp & Call) */}
+      <QuickContactFloating />
     </div>
   );
 }

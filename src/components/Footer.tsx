@@ -277,7 +277,12 @@ export const Footer: React.FC<FooterProps> = ({
             <Phone className="w-4 h-4 text-blue-400 shrink-0 mt-0.5" />
             <div>
               <div className="font-semibold text-slate-300 mb-0.5">Telephone Inquiries</div>
-              <p className="leading-normal">{COMPANY_DETAILS.phonePlaceholder}</p>
+              <a
+                href={`tel:+91${COMPANY_DETAILS.phoneRaw}`}
+                className="text-blue-400 hover:underline leading-normal block"
+              >
+                {COMPANY_DETAILS.phonePlaceholder}
+              </a>
             </div>
           </div>
 

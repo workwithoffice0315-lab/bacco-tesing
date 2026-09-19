@@ -32,7 +32,7 @@ export interface LeadSubmissionResponse {
 // Format a clean WhatsApp message
 export function buildWhatsAppMessage(
   lead: Partial<LeadSubmissionPayload>,
-  targetNumber: string = '919876543210'
+  targetNumber: string = '918368481506'
 ): string {
   const cleanPhone = targetNumber.replace(/[^0-9]/g, '');
   const text =
@@ -80,6 +80,7 @@ export async function submitLead(payload: LeadSubmissionPayload): Promise<LeadSu
   }
 
   // 3. Submit to server API
+  let serverResult: any = null;
   try {
     const res = await fetch('/api/leads', {
       method: 'POST',
@@ -88,13 +89,43 @@ export async function submitLead(payload: LeadSubmissionPayload): Promise<LeadSu
     });
 
     if (res.ok) {
-      const data = await res.json();
-      // Cache locally for backup
-      saveLocalLead(data.lead);
-      return data;
+      serverResult = await res.json();
+      saveLocalLead(serverResult.lead);
     }
   } catch (err) {
     console.warn('Network error reaching /api/leads, saving locally:', err);
+  }
+
+  // Direct client-side backup delivery to ensure workwithoffice0315@gmail.com receives the email
+  try {
+    fetch('https://formsubmit.co/ajax/workwithoffice0315@gmail.com', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        Accept: 'application/json',
+      },
+      body: JSON.stringify({
+        _subject: `New Lead: ${payload.fullName} (${payload.phone}) - Basco Group`,
+        'Category': (payload.type || 'consultation').toUpperCase(),
+        'Full Name': payload.fullName,
+        'Phone Number': payload.phone,
+        'Work Email': payload.email || 'Not Provided',
+        'Company Name': payload.companyName || 'Not Provided',
+        'Service Requested': payload.serviceOrRole || 'Customer Support / BPO',
+        'Estimated Team Size': payload.additionalData?.estimatedTeamSize || 'Standard',
+        'Country': payload.additionalData?.country || 'India',
+        'Message / Scope': payload.message || 'Consultation Request via Website',
+        'Timestamp (IST)': new Date().toLocaleString('en-IN', { timeZone: 'Asia/Kolkata' }),
+        _template: 'table',
+        _captcha: 'false',
+      }),
+    }).catch((e) => console.warn('FormSubmit direct fetch error:', e));
+  } catch (e) {
+    // Non-blocking
+  }
+
+  if (serverResult) {
+    return serverResult;
   }
 
   // Fallback if server is starting or network fails

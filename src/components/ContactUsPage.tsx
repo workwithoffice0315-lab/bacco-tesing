@@ -34,19 +34,16 @@ export const ContactUsPage: React.FC = () => {
   const validateConsult = (): boolean => {
     const newErrors: Record<string, string> = {};
     if (!consultForm.fullName.trim()) newErrors.fullName = 'Full Name is required';
-    if (!consultForm.companyName.trim()) newErrors.companyName = 'Company Name is required';
-    if (!consultForm.workEmail.trim()) {
-      newErrors.workEmail = 'Work Email is required';
-    } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(consultForm.workEmail)) {
-      newErrors.workEmail = 'Please provide a valid business email';
-    }
     if (!consultForm.phoneNumber.trim()) {
       newErrors.phoneNumber = 'Phone Number is required';
     } else if (consultForm.phoneNumber.replace(/[^0-9]/g, '').length < 8) {
       newErrors.phoneNumber = 'Please enter a valid phone number';
     }
-    if (!consultForm.message.trim()) {
-      newErrors.message = 'Please provide details about your requirements';
+    if (
+      consultForm.workEmail.trim() &&
+      !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(consultForm.workEmail.trim())
+    ) {
+      newErrors.workEmail = 'Please provide a valid business email';
     }
 
     setErrors(newErrors);
@@ -73,12 +70,14 @@ export const ContactUsPage: React.FC = () => {
     try {
       const res = await submitLead({
         type: 'consultation',
-        fullName: consultForm.fullName,
-        email: consultForm.workEmail,
-        phone: consultForm.phoneNumber,
-        companyName: consultForm.companyName,
-        serviceOrRole: consultForm.serviceRequired,
-        message: consultForm.message,
+        fullName: consultForm.fullName.trim(),
+        email: consultForm.workEmail.trim(),
+        phone: consultForm.phoneNumber.trim(),
+        companyName: consultForm.companyName.trim() || 'Independent Client',
+        serviceOrRole: consultForm.serviceRequired || 'Customer Support',
+        message:
+          consultForm.message.trim() ||
+          `Consultation Inquiry from ${consultForm.fullName.trim()} (${consultForm.phoneNumber.trim()})`,
         additionalData: {
           country: consultForm.country,
           estimatedTeamSize: consultForm.estimatedTeamSize,
@@ -645,9 +644,12 @@ export const ContactUsPage: React.FC = () => {
                   <Phone className="w-5 h-5 text-blue-400 shrink-0 mt-0.5" />
                   <div>
                     <div className="font-semibold text-slate-200">Phone Number</div>
-                    <p className="text-slate-400 mt-0.5 leading-relaxed">
+                    <a
+                      href={`tel:+91${COMPANY_DETAILS.phoneRaw}`}
+                      className="text-blue-400 hover:underline mt-0.5 block leading-relaxed"
+                    >
                       {COMPANY_DETAILS.phonePlaceholder}
-                    </p>
+                    </a>
                   </div>
                 </div>
 

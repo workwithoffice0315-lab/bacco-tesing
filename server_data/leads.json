@@ -1,0 +1,49 @@
+[
+  {
+    "id": "lead-1789808962068-bo153",
+    "type": "consultation",
+    "fullName": "Rahul Sharma",
+    "email": "client@example.com",
+    "phone": "+91 8368481506",
+    "companyName": "Basco Test Enterprise",
+    "serviceOrRole": "Customer Support & BPO",
+    "message": "Requesting consultation on customer care support.",
+    "additionalData": {},
+    "createdAt": "2026-09-19T09:09:22.068Z",
+    "status": "new",
+    "notes": ""
+  },
+  {
+    "id": "lead-sample-1",
+    "type": "consultation",
+    "fullName": "Vikram Mehta",
+    "email": "vikram.m@zenithfin.in",
+    "phone": "+91 98200 45678",
+    "companyName": "Zenith FinTech Solutions",
+    "serviceOrRole": "Customer Support",
+    "message": "Looking for 10 dedicated voice & chat agents for 24/7 financial support.",
+    "additionalData": {
+      "estimatedTeamSize": "5 – 15 agents",
+      "country": "India"
+    },
+    "createdAt": "2026-09-19T06:54:38.981Z",
+    "status": "new",
+    "notes": "Requested urgent quotation for tier-1 support."
+  },
+  {
+    "id": "lead-sample-2",
+    "type": "callback",
+    "fullName": "Sarah Jenkins",
+    "email": "sjenkins@apexcommerce.co",
+    "phone": "+1 415 890 1234",
+    "companyName": "Apex Commerce Inc",
+    "serviceOrRole": "Contact Center Services",
+    "message": "Requesting callback regarding holiday season inbound queue overflow.",
+    "additionalData": {
+      "preferredTime": "2:00 PM – 5:00 PM IST"
+    },
+    "createdAt": "2026-09-18T08:54:38.981Z",
+    "status": "contacted",
+    "notes": "Call scheduled for tomorrow afternoon."
+  }
+]

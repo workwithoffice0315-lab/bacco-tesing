@@ -49,7 +49,7 @@ const DEFAULT_SETTINGS = {
   customBodyCode: '',
 
   adminEmail: process.env.ADMIN_EMAIL || 'workwithoffice0315@gmail.com',
-  adminWhatsApp: process.env.ADMIN_WHATSAPP || '919876543210',
+  adminWhatsApp: process.env.ADMIN_WHATSAPP || '918368481506',
   enableEmailAlerts: true,
   whatsappFloatingEnabled: true,
   whatsappButtonPosition: 'left',
@@ -226,7 +226,11 @@ async function dispatchEmailNotification(lead: any) {
     </html>
   `;
 
-  // Check if SMTP is configured
+  let emailDispatched = false;
+  let dispatchMethod = 'none';
+  let dispatchDetails: any = null;
+
+  // 1. Check if direct SMTP is configured
   const smtpHost = currentSettings.smtpHost || process.env.SMTP_HOST;
   const smtpUser = currentSettings.smtpUser || process.env.SMTP_USER;
   const smtpPass = currentSettings.smtpPass || process.env.SMTP_PASS;
@@ -249,22 +253,62 @@ async function dispatchEmailNotification(lead: any) {
         subject,
         html,
       });
-      console.log(`[EMAIL DISPATCHED] To: ${recipient}, MessageId: ${info.messageId}`);
-      return { sent: true, recipient, messageId: info.messageId };
+      console.log(`[EMAIL DISPATCHED VIA SMTP] To: ${recipient}, MessageId: ${info.messageId}`);
+      emailDispatched = true;
+      dispatchMethod = 'smtp';
+      dispatchDetails = { messageId: info.messageId };
     } catch (err: any) {
       console.error('[EMAIL ERROR] Failed to send via SMTP:', err.message);
-      return { sent: false, recipient, error: err.message, mode: 'smtp_failed' };
     }
-  } else {
-    // Simulated active dispatch (logged and prepared for mailbox delivery)
-    console.log(`[EMAIL DISPATCH - RECORDED] Prepared for: ${recipient} | Subject: ${subject}`);
-    return {
-      sent: true,
-      recipient,
-      mode: 'recorded',
-      note: 'Inquiry logged and prepared for mail notification to ' + recipient,
-    };
   }
+
+  // 2. Direct HTTP Gateway Dispatch via FormSubmit directly to recipient (works out-of-the-box)
+  try {
+    const gatewayPayload = {
+      _subject: `New Lead: ${lead.fullName} (${lead.phone}) - Basco Group`,
+      'Lead ID': lead.id,
+      'Lead Category': (lead.type || 'consultation').toUpperCase(),
+      'Full Name': lead.fullName,
+      'Phone Number': lead.phone,
+      'Work Email': lead.email || 'Not Provided',
+      'Company Name': lead.companyName || 'Not Provided',
+      'Service Required': lead.serviceOrRole || 'General Consultation',
+      'Estimated Team Size': lead.additionalData?.estimatedTeamSize || 'Standard',
+      'Country / Market': lead.additionalData?.country || 'India',
+      'Operational Scope / Message': lead.message || 'Customer requested consultation review.',
+      'Submitted At (IST)': new Date().toLocaleString('en-IN', { timeZone: 'Asia/Kolkata' }),
+      _template: 'table',
+      _captcha: 'false',
+    };
+
+    const gatewayRes = await fetch(`https://formsubmit.co/ajax/${recipient}`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        Accept: 'application/json',
+        Referer: 'https://www.bascogroup.co.in',
+      },
+      body: JSON.stringify(gatewayPayload),
+    });
+
+    const gatewayData: any = await gatewayRes.json().catch(() => ({}));
+    console.log(`[EMAIL GATEWAY DISPATCH] Status: ${gatewayRes.status}, Response:`, gatewayData);
+    if (gatewayRes.ok || gatewayData.success === 'true' || gatewayData.message) {
+      emailDispatched = true;
+      dispatchMethod = dispatchMethod === 'smtp' ? 'smtp+gateway' : 'gateway';
+      dispatchDetails = { ...dispatchDetails, gateway: gatewayData };
+    }
+  } catch (gatewayErr: any) {
+    console.error('[EMAIL GATEWAY ERROR]', gatewayErr.message);
+  }
+
+  return {
+    sent: emailDispatched,
+    recipient,
+    method: dispatchMethod,
+    details: dispatchDetails,
+    timestamp: new Date().toISOString(),
+  };
 }
 
 // ---------------- API ROUTES ----------------
