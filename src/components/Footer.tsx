@@ -175,7 +175,7 @@ export const Footer: React.FC<FooterProps> = ({
                   onClick={() => handleNav('/services')}
                   className="hover:text-white transition-colors text-left"
                 >
-                  Technical Support
+                  Inbound Calling
                 </button>
               </li>
               <li>
@@ -183,7 +183,7 @@ export const Footer: React.FC<FooterProps> = ({
                   onClick={() => handleNav('/services')}
                   className="hover:text-white transition-colors text-left"
                 >
-                  Back Office
+                  Outbound Calling
                 </button>
               </li>
               <li>
@@ -191,7 +191,7 @@ export const Footer: React.FC<FooterProps> = ({
                   onClick={() => handleNav('/services')}
                   className="hover:text-white transition-colors text-left"
                 >
-                  Lead Generation
+                  Back Office Support
                 </button>
               </li>
               <li>
@@ -199,7 +199,7 @@ export const Footer: React.FC<FooterProps> = ({
                   onClick={() => handleNav('/services')}
                   className="hover:text-white transition-colors text-left"
                 >
-                  All 12 Services →
+                  All Outsourcing Services →
                 </button>
               </li>
             </ul>
@@ -216,7 +216,7 @@ export const Footer: React.FC<FooterProps> = ({
                   onClick={() => handleNav('/industries')}
                   className="hover:text-white transition-colors text-left"
                 >
-                  E-commerce
+                  Banking & Financial Services
                 </button>
               </li>
               <li>
@@ -224,7 +224,7 @@ export const Footer: React.FC<FooterProps> = ({
                   onClick={() => handleNav('/industries')}
                   className="hover:text-white transition-colors text-left"
                 >
-                  Healthcare
+                  Automotive & Mobility
                 </button>
               </li>
               <li>
@@ -232,7 +232,7 @@ export const Footer: React.FC<FooterProps> = ({
                   onClick={() => handleNav('/industries')}
                   className="hover:text-white transition-colors text-left"
                 >
-                  BFSI
+                  Education & EdTech
                 </button>
               </li>
               <li>
@@ -240,7 +240,7 @@ export const Footer: React.FC<FooterProps> = ({
                   onClick={() => handleNav('/industries')}
                   className="hover:text-white transition-colors text-left"
                 >
-                  Travel
+                  Retail & Consumer Goods
                 </button>
               </li>
               <li>
@@ -248,7 +248,7 @@ export const Footer: React.FC<FooterProps> = ({
                   onClick={() => handleNav('/industries')}
                   className="hover:text-white transition-colors text-left"
                 >
-                  Real Estate
+                  Technology & SaaS
                 </button>
               </li>
               <li>
@@ -256,7 +256,7 @@ export const Footer: React.FC<FooterProps> = ({
                   onClick={() => handleNav('/industries')}
                   className="hover:text-white transition-colors text-left"
                 >
-                  Technology
+                  Logistics & Supply Chain
                 </button>
               </li>
             </ul>

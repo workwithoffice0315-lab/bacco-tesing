@@ -40,7 +40,7 @@ export const ServicesOverviewSection: React.FC<ServicesOverviewSectionProps> = (
               onClick={() => onNavigate('/services')}
               className="inline-flex items-center gap-2 text-sm font-bold text-blue-700 hover:text-blue-800 bg-white hover:bg-slate-100 px-5 py-2.5 rounded-xl border border-slate-200 shadow-sm transition-colors"
             >
-              <span>Explore All 12 Services</span>
+              <span>Explore All Services</span>
               <ArrowRight className="w-4 h-4" />
             </button>
           </div>

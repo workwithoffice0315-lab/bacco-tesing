@@ -56,7 +56,7 @@ export const IndustriesPage: React.FC<IndustriesPageProps> = ({
         </div>
       </div>
 
-      {/* 12 Detailed Industry Cards */}
+      {/* Detailed Industry Cards */}
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-8">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
           {filteredIndustries.map((ind) => (

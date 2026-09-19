@@ -605,14 +605,11 @@ export const ConsultationModal: React.FC<ConsultationModalProps> = ({
                   <option value="Inbound & Outbound Calling Programs">
                     Inbound & Outbound Calling Programs
                   </option>
-                  <option value="Technical Support (L1/L2) Outsourcing">
-                    Technical Support (L1/L2) Outsourcing
-                  </option>
                   <option value="Back Office & Data Operations">
                     Back Office & Data Operations
                   </option>
-                  <option value="Lead Generation & Appointment Setting">
-                    Lead Generation & Appointment Setting
+                  <option value="BPO Seating Models & Dedicated Teams">
+                    BPO Seating Models & Dedicated Teams
                   </option>
                   <option value="Custom BPO Architecture & Pricing">
                     Custom BPO Architecture & Pricing

@@ -578,17 +578,17 @@ export const ContactUsPage: React.FC = () => {
                       <option value="Customer Support / Contact Center Evaluation">
                         Customer Support / Contact Center Evaluation
                       </option>
-                      <option value="Technical Support (L1/L2) Outsourcing">
-                        Technical Support (L1/L2) Outsourcing
+                      <option value="Inbound & Outbound Calling Programs">
+                        Inbound & Outbound Calling Programs
                       </option>
                       <option value="Back Office & Data Operations">
                         Back Office & Data Operations
                       </option>
-                      <option value="Lead Generation & Telemarketing">
-                        Lead Generation & Telemarketing
+                      <option value="BPO Seating Models & Dedicated Teams">
+                        BPO Seating Models & Dedicated Teams
                       </option>
-                      <option value="BPO Seating Models & Pricing">
-                        BPO Seating Models & Pricing
+                      <option value="Custom BPO Architecture & Pricing">
+                        Custom BPO Architecture & Pricing
                       </option>
                     </select>
                   </div>

@@ -32,7 +32,7 @@ export const IndustriesPreviewSection: React.FC<IndustriesPreviewSectionProps> =
           </p>
         </div>
 
-        {/* 12 Industry Grid */}
+        {/* Industry Grid */}
         <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4 sm:gap-5 mb-12">
           {INDUSTRIES_LIST.map((ind) => {
             const isSelected = activeIndustry.id === ind.id;

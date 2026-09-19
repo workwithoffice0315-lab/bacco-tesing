@@ -29,127 +29,42 @@ export const AboutUsPage: React.FC<AboutUsPageProps> = ({
         </div>
       </div>
 
-      {/* 1. Who We Are & 2. What We Do */}
+      {/* 1. Who We Are */}
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mb-20">
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
-          <div className="space-y-6">
-            <div className="space-y-2">
-              <span className="text-xs font-bold text-blue-700 uppercase tracking-wider">
-                Our Identity
-              </span>
-              <h2 className="text-2xl sm:text-3xl font-bold tracking-tight text-slate-900">
-                Who We Are
-              </h2>
-            </div>
-            <p className="text-base text-slate-600 leading-relaxed font-normal">
-              Basco Group is a professional business process outsourcing organization established to solve one of the most critical challenges facing modern enterprises: maintaining responsive, empathetic, and cost-effective customer support operations as business volume scales.
-            </p>
-            <p className="text-base text-slate-600 leading-relaxed font-normal">
-              We position ourselves as a dependable extension of our clients’ internal teams. By blending rigorously trained human communicators, standardized process blueprints, and modern communication infrastructure, we help organizations manage customer contacts and administrative backlogs with unwavering consistency.
-            </p>
-
-            {/* Editable Corporate Placeholders as requested */}
-            <div className="p-4 bg-slate-50 border border-dashed border-slate-300 rounded-xl space-y-2 text-xs text-slate-600">
-              <div className="flex items-center gap-2 font-semibold text-slate-800">
-                <Building className="w-4 h-4 text-blue-600" />
-                <span>Corporate Operational Details [Editable Information]</span>
-              </div>
-              <p className="text-slate-500">
-                • <strong>Operational Footprint:</strong> {COMPANY_DETAILS.addressPlaceholder}
-              </p>
-              <p className="text-slate-500">
-                • <strong>Corporate Inquiries:</strong> {COMPANY_DETAILS.emailPlaceholder}
-              </p>
-              <p className="text-slate-500">
-                • <strong>Official Domain:</strong> {COMPANY_DETAILS.domain}
-              </p>
-              <p className="text-[11px] text-slate-400 italic">
-                (Note: Specific founding year, employee headcount benchmarks, and facility locations remain editable placeholders configured per administrative discretion.)
-              </p>
-            </div>
-          </div>
-
-          {/* What We Do Card */}
-          <div className="bg-slate-50 border border-slate-200 rounded-2xl p-8 space-y-6 shadow-sm">
-            <div className="space-y-2">
-              <span className="text-xs font-bold text-blue-700 uppercase tracking-wider">
-                Operational Scope
-              </span>
-              <h2 className="text-2xl sm:text-3xl font-bold tracking-tight text-slate-900">
-                What We Do
-              </h2>
-            </div>
-            <p className="text-sm sm:text-base text-slate-600 leading-relaxed font-normal">
-              We assume end-to-end responsibility for non-core and customer-facing business workflows so that client leadership can dedicate attention to core innovation and market expansion:
-            </p>
-
-            <ul className="space-y-3 text-sm text-slate-700">
-              <li className="flex items-start gap-3">
-                <CheckCircle2 className="w-5 h-5 text-blue-600 shrink-0 mt-0.5" />
-                <span><strong>Omnichannel Customer Support:</strong> Managing inbound phone, email, and live chat queues under strict SLA parameters.</span>
-              </li>
-              <li className="flex items-start gap-3">
-                <CheckCircle2 className="w-5 h-5 text-blue-600 shrink-0 mt-0.5" />
-                <span><strong>Outbound & Growth Services:</strong> Lead verification, telephone outreach, and executive appointment setting.</span>
-              </li>
-              <li className="flex items-start gap-3">
-                <CheckCircle2 className="w-5 h-5 text-blue-600 shrink-0 mt-0.5" />
-                <span><strong>Technical & Helpdesk Support:</strong> Level 1 and Level 2 diagnostic assistance for digital tools and hardware.</span>
-              </li>
-              <li className="flex items-start gap-3">
-                <CheckCircle2 className="w-5 h-5 text-blue-600 shrink-0 mt-0.5" />
-                <span><strong>Back Office Processing:</strong> High-accuracy data entry, catalog maintenance, and administrative reconciliation.</span>
-              </li>
-            </ul>
-          </div>
-        </div>
-      </div>
-
-      {/* 3. Our Approach */}
-      <div className="bg-slate-50 py-16 border-y border-slate-200/70 mb-20">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="max-w-3xl mx-auto text-center space-y-3 mb-12">
+        <div className="max-w-4xl space-y-6">
+          <div className="space-y-2">
             <span className="text-xs font-bold text-blue-700 uppercase tracking-wider">
-              Methodology
+              Our Identity
             </span>
             <h2 className="text-2xl sm:text-3xl font-bold tracking-tight text-slate-900">
-              Our Operational Approach
+              Who We Are
             </h2>
-            <p className="text-sm sm:text-base text-slate-600 font-normal">
-              Rather than providing generic bodies in seats, Basco Group adheres to a systems-first methodology that aligns human performance with business goals.
-            </p>
           </div>
+          <p className="text-base text-slate-600 leading-relaxed font-normal">
+            Basco Group is a professional business process outsourcing organization established to solve one of the most critical challenges facing modern enterprises: maintaining responsive, empathetic, and cost-effective customer support operations as business volume scales.
+          </p>
+          <p className="text-base text-slate-600 leading-relaxed font-normal">
+            We position ourselves as a dependable extension of our clients’ internal teams. By blending rigorously trained human communicators, standardized process blueprints, and modern communication infrastructure, we help organizations manage customer contacts and administrative backlogs with unwavering consistency.
+          </p>
 
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            <div className="bg-white rounded-xl p-6 border border-slate-200 shadow-sm space-y-3">
-              <div className="w-10 h-10 rounded-lg bg-blue-50 text-blue-600 flex items-center justify-center font-bold">
-                01
-              </div>
-              <h3 className="text-lg font-bold text-slate-900">SOP & Scripting Alignment</h3>
-              <p className="text-xs sm:text-sm text-slate-600 leading-relaxed font-normal">
-                We codify your product nuances, escalation trees, and brand guidelines into clear, comprehensive Standard Operating Procedures prior to handling live interactions.
-              </p>
+          {/* Editable Corporate Placeholders as requested */}
+          <div className="p-4 bg-slate-50 border border-dashed border-slate-300 rounded-xl space-y-2 text-xs text-slate-600">
+            <div className="flex items-center gap-2 font-semibold text-slate-800">
+              <Building className="w-4 h-4 text-blue-600" />
+              <span>Corporate Operational Details [Editable Information]</span>
             </div>
-
-            <div className="bg-white rounded-xl p-6 border border-slate-200 shadow-sm space-y-3">
-              <div className="w-10 h-10 rounded-lg bg-blue-50 text-blue-600 flex items-center justify-center font-bold">
-                02
-              </div>
-              <h3 className="text-lg font-bold text-slate-900">Daily QA & Performance Calibration</h3>
-              <p className="text-xs sm:text-sm text-slate-600 leading-relaxed font-normal">
-                Continuous auditing of recorded calls, chat logs, and ticket resolutions against objective scorecards ensures quality remains consistent across all shifts.
-              </p>
-            </div>
-
-            <div className="bg-white rounded-xl p-6 border border-slate-200 shadow-sm space-y-3">
-              <div className="w-10 h-10 rounded-lg bg-blue-50 text-blue-600 flex items-center justify-center font-bold">
-                03
-              </div>
-              <h3 className="text-lg font-bold text-slate-900">Transparent Governance & Metrics</h3>
-              <p className="text-xs sm:text-sm text-slate-600 leading-relaxed font-normal">
-                Regular reporting on Average Speed to Answer (ASA), First Contact Resolution (FCR), Customer Satisfaction (CSAT), and backlog volumes.
-              </p>
-            </div>
+            <p className="text-slate-500">
+              • <strong>Operational Footprint:</strong> {COMPANY_DETAILS.addressPlaceholder}
+            </p>
+            <p className="text-slate-500">
+              • <strong>Corporate Inquiries:</strong> {COMPANY_DETAILS.emailPlaceholder}
+            </p>
+            <p className="text-slate-500">
+              • <strong>Official Domain:</strong> {COMPANY_DETAILS.domain}
+            </p>
+            <p className="text-[11px] text-slate-400 italic">
+              (Note: Specific founding year, employee headcount benchmarks, and facility locations remain editable placeholders configured per administrative discretion.)
+            </p>
           </div>
         </div>
       </div>

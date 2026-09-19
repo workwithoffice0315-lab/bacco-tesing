@@ -1,12 +1,10 @@
 import React, { useState } from 'react';
 import { CAREER_OPENINGS, COMPANY_DETAILS } from '../data/companyData';
-import { JobOpening, JobApplicationFormData } from '../types';
-import { Briefcase, MapPin, Clock, Upload, CheckCircle2, Send, AlertCircle, FileText, X, ChevronRight, User, Mail, Phone, MessageCircle, ExternalLink } from 'lucide-react';
+import { JobApplicationFormData } from '../types';
+import { MapPin, Upload, CheckCircle2, Send, FileText, User, Mail, Phone, MessageCircle, ExternalLink } from 'lucide-react';
 import { submitLead } from '../services/leadService';
 
 export const CareersPage: React.FC = () => {
-  const [selectedJob, setSelectedJob] = useState<JobOpening | null>(null);
-  const [departmentFilter, setDepartmentFilter] = useState('All');
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isSubmitted, setIsSubmitted] = useState(false);
   const [generatedWhatsAppUrl, setGeneratedWhatsAppUrl] = useState<string>('');
@@ -22,13 +20,6 @@ export const CareersPage: React.FC = () => {
     location: 'India',
     resumeFileName: '',
     message: '',
-  });
-
-  const departments = ['All', 'Customer Experience', 'Technical Support', 'Outbound & Growth', 'Quality & Compliance', 'Operations'];
-
-  const filteredJobs = CAREER_OPENINGS.filter((job) => {
-    if (departmentFilter === 'All') return true;
-    return job.department.toLowerCase().includes(departmentFilter.toLowerCase());
   });
 
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -113,15 +104,6 @@ export const CareersPage: React.FC = () => {
     }
   };
 
-  const applyForJob = (job: JobOpening) => {
-    setFormData((prev) => ({ ...prev, positionApplyingFor: job.title }));
-    setSelectedJob(job);
-    const formElement = document.getElementById('career-application-form');
-    if (formElement) {
-      formElement.scrollIntoView({ behavior: 'smooth' });
-    }
-  };
-
   return (
     <div id="careers-page" className="py-12 lg:py-16 bg-white text-slate-900 text-left">
       {/* Hero */}
@@ -164,183 +146,6 @@ export const CareersPage: React.FC = () => {
           </div>
         </div>
       </div>
-
-      {/* Current Vacancies Section */}
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mb-20">
-        <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4 mb-8">
-          <div>
-            <span className="text-xs font-bold text-blue-700 uppercase tracking-wider">
-              Open Positions
-            </span>
-            <h2 className="text-2xl sm:text-3xl font-bold tracking-tight text-slate-900">
-              Current Vacancies
-            </h2>
-            <p className="text-sm text-slate-600 mt-1 font-normal">
-              Explore open opportunities across our operations, technology, and support divisions.
-            </p>
-          </div>
-
-          {/* Department Filter */}
-          <div className="flex items-center gap-1.5 overflow-x-auto pb-2 sm:pb-0">
-            {departments.map((dept) => (
-              <button
-                key={dept}
-                onClick={() => setDepartmentFilter(dept)}
-                className={`px-3 py-1.5 rounded-lg text-xs font-semibold whitespace-nowrap transition-colors ${
-                  departmentFilter === dept
-                    ? 'bg-blue-600 text-white shadow-sm'
-                    : 'bg-slate-100 text-slate-700 hover:bg-slate-200'
-                }`}
-              >
-                {dept}
-              </button>
-            ))}
-          </div>
-        </div>
-
-        {/* Job Cards Grid */}
-        <div className="space-y-4">
-          {filteredJobs.map((job) => (
-            <div
-              key={job.id}
-              className="bg-slate-50/70 hover:bg-white rounded-2xl p-6 border border-slate-200 hover:border-blue-400 hover:shadow-md transition-all duration-200 flex flex-col lg:flex-row items-start lg:items-center justify-between gap-6"
-            >
-              <div className="space-y-2 max-w-3xl">
-                <div className="flex flex-wrap items-center gap-2">
-                  <span className="text-xs font-semibold text-blue-700 bg-blue-50 px-2.5 py-0.5 rounded-full border border-blue-100">
-                    {job.department}
-                  </span>
-                  <span className="text-xs font-medium text-slate-500 bg-white border border-slate-200 px-2 py-0.5 rounded">
-                    {job.type}
-                  </span>
-                  <span className="text-xs font-medium text-slate-500 bg-white border border-slate-200 px-2 py-0.5 rounded">
-                    Exp: {job.experience}
-                  </span>
-                </div>
-
-                <h3 className="text-lg sm:text-xl font-bold text-slate-900">
-                  {job.title}
-                </h3>
-
-                <p className="text-xs sm:text-sm text-slate-600 leading-relaxed font-normal">
-                  {job.overview}
-                </p>
-
-                <div className="flex items-center gap-4 text-xs text-slate-500 pt-1">
-                  <span className="flex items-center gap-1">
-                    <MapPin className="w-3.5 h-3.5 text-slate-400" />
-                    {job.location}
-                  </span>
-                </div>
-              </div>
-
-              <div className="shrink-0 flex items-center gap-3 w-full lg:w-auto">
-                <button
-                  onClick={() => setSelectedJob(job)}
-                  className="w-full lg:w-auto px-4 py-2.5 rounded-lg border border-slate-300 hover:bg-slate-100 text-xs font-semibold text-slate-700 transition-colors"
-                >
-                  View Details
-                </button>
-                <button
-                  onClick={() => applyForJob(job)}
-                  className="w-full lg:w-auto bg-blue-600 hover:bg-blue-700 text-white text-xs font-semibold px-5 py-2.5 rounded-lg shadow-sm transition-colors whitespace-nowrap"
-                >
-                  Apply Now
-                </button>
-              </div>
-            </div>
-          ))}
-        </div>
-      </div>
-
-      {/* Job Details Modal */}
-      {selectedJob && (
-        <div className="fixed inset-0 z-50 overflow-y-auto bg-slate-950/70 backdrop-blur-sm flex items-center justify-center p-4 sm:p-6">
-          <div className="relative bg-white rounded-2xl shadow-2xl max-w-2xl w-full overflow-hidden border border-slate-200 animate-in fade-in zoom-in-95 duration-150">
-            <div className="bg-slate-900 text-white p-6 flex items-start justify-between border-b border-slate-800">
-              <div>
-                <span className="text-xs font-semibold text-blue-400 uppercase tracking-wider">
-                  {selectedJob.department}
-                </span>
-                <h3 className="text-xl font-bold text-white tracking-tight mt-1">
-                  {selectedJob.title}
-                </h3>
-                <div className="flex items-center gap-3 text-xs text-slate-300 mt-2">
-                  <span>{selectedJob.type}</span>
-                  <span>•</span>
-                  <span>{selectedJob.experience}</span>
-                  <span>•</span>
-                  <span>{selectedJob.location}</span>
-                </div>
-              </div>
-              <button
-                onClick={() => setSelectedJob(null)}
-                className="text-slate-400 hover:text-white p-1 rounded-lg hover:bg-slate-800"
-              >
-                <X className="w-5 h-5" />
-              </button>
-            </div>
-
-            <div className="p-6 sm:p-8 space-y-6 max-h-[65vh] overflow-y-auto text-left">
-              <div>
-                <h4 className="text-xs font-bold uppercase tracking-wider text-slate-900 mb-2">
-                  Role Overview
-                </h4>
-                <p className="text-sm text-slate-700 leading-relaxed font-normal">
-                  {selectedJob.overview}
-                </p>
-              </div>
-
-              <div>
-                <h4 className="text-xs font-bold uppercase tracking-wider text-slate-900 mb-2">
-                  Key Responsibilities
-                </h4>
-                <ul className="space-y-2 text-xs sm:text-sm text-slate-700">
-                  {selectedJob.responsibilities.map((item, idx) => (
-                    <li key={idx} className="flex items-start gap-2">
-                      <span className="w-1.5 h-1.5 rounded-full bg-blue-600 shrink-0 mt-2" />
-                      <span>{item}</span>
-                    </li>
-                  ))}
-                </ul>
-              </div>
-
-              <div>
-                <h4 className="text-xs font-bold uppercase tracking-wider text-slate-900 mb-2">
-                  Requirements & Qualifications
-                </h4>
-                <ul className="space-y-2 text-xs sm:text-sm text-slate-700">
-                  {selectedJob.requirements.map((item, idx) => (
-                    <li key={idx} className="flex items-start gap-2">
-                      <span className="w-1.5 h-1.5 rounded-full bg-emerald-600 shrink-0 mt-2" />
-                      <span>{item}</span>
-                    </li>
-                  ))}
-                </ul>
-              </div>
-            </div>
-
-            <div className="p-4 sm:px-8 sm:py-4 bg-slate-50 border-t border-slate-200 flex justify-end gap-3">
-              <button
-                onClick={() => setSelectedJob(null)}
-                className="px-4 py-2 text-xs font-semibold text-slate-700 hover:bg-slate-200 rounded-lg"
-              >
-                Close
-              </button>
-              <button
-                onClick={() => {
-                  const job = selectedJob;
-                  setSelectedJob(null);
-                  applyForJob(job);
-                }}
-                className="bg-blue-600 hover:bg-blue-700 text-white text-xs font-semibold px-5 py-2 rounded-lg"
-              >
-                Apply for this Position
-              </button>
-            </div>
-          </div>
-        </div>
-      )}
 
       {/* Application Form Section */}
       <div id="career-application-form" className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">

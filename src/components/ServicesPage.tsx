@@ -42,7 +42,7 @@ export const ServicesPage: React.FC<ServicesPageProps> = ({
             Our Outsourcing Solutions
           </h1>
           <p className="text-lg text-slate-600 font-normal leading-relaxed">
-            Explore our 12 comprehensive outsourcing services designed to reduce operational burden, elevate customer satisfaction, and provide reliable, scalable support for your business.
+            Explore our comprehensive outsourcing services designed to reduce operational burden, elevate customer satisfaction, and provide reliable, scalable support for your business.
           </p>
         </div>
 
